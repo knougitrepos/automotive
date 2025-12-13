@@ -1,0 +1,99 @@
+# Dataset 폴더 제외
+dataset/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 가상환경
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv
+.conda/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# PyTorch
+*.pth
+*.pt
+lightning_logs/
+wandb/
+
+# TensorFlow
+*.ckpt
+*.ckpt.*
+*.pb
+*.h5
+*.hdf5
+tensorboard_logs/
+tfrecords/
+*.tfrecord
+
+# 모델 체크포인트 및 출력
+checkpoints/
+models/saved_models/
+models/checkpoints/
+outputs/
+results/
+logs/
+*.log
+
+# 데이터 처리 중간 결과물
+*.npy
+*.npz
+cache/
+.cache/
+
+# IDE 및 에디터
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.spyderproject
+.spyproject
+
+# 환경 변수 및 설정
+.env
+.env.local
+*.local
+
+# 기타 임시 파일
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+
+# 자율주행 관련 특정 파일
+video_outputs/
+simulation_results/
+recordings/
+annotations/processed/
