@@ -11,13 +11,13 @@ sensors:
 
 collection:
   fps: 10  # 초당 프레임 수
-  episode_length: 1000  # 에피소드당 최대 프레임
-  num_episodes: 50  # 수집할 에피소드 수
+  episode_length: 10000  # 에피소드당 최대 프레임
+  num_episodes: 5  # 수집할 에피소드 수
   
 server:
   host: localhost
   port: 2000
-  timeout: 10.0
+  timeout: 30.0
 
 world:
   map: Town01  # 시작 맵
@@ -26,6 +26,45 @@ world:
 vehicle:
   blueprint: vehicle.tesla.model3
   spawn_point: random  # 랜덤 스폰 또는 특정 위치
+  role_name: hero  # ego 차량 식별용
+
+# === 교통 환경 설정 (NPC 차량, 보행자, 신호등) ===
+traffic:
+  # NPC 차량 설정
+  vehicles:
+    enabled: true
+    num_vehicles: 30  # 스폰할 NPC 차량 수
+    filter: "vehicle.*"  # 차량 필터 (모든 차량)
+    safe_spawn: true  # 안전한 위치에만 스폰
+    
+  # 보행자 설정
+  pedestrians:
+    enabled: true
+    num_pedestrians: 20  # 스폰할 보행자 수
+    filter: "walker.pedestrian.*"  # 보행자 필터
+    run_probability: 0.2  # 뛰는 보행자 비율 (20%)
+    crossing_factor: 0.3  # 무단횡단 확률 (30%)
+    
+  # 신호등 설정
+  traffic_lights:
+    enabled: true
+    auto_mode: true  # 자동 신호 변경
+    
+  # Traffic Manager 설정
+  traffic_manager:
+    port: 8000  # TM 포트
+    global_distance_to_leading: 2.5  # 앞차와의 거리 (m)
+    hybrid_physics_mode: true  # 하이브리드 물리 모드 (성능 최적화)
+    hybrid_physics_radius: 70.0  # 하이브리드 물리 반경 (m)
+    respawn_dormant_vehicles: true  # 비활성 차량 재스폰
+    
+  # 차량별 행동 설정
+  vehicle_behavior:
+    ignore_lights_percentage: 0.0  # 신호 무시 확률 (0%)
+    ignore_signs_percentage: 0.0  # 표지판 무시 확률 (0%)
+    random_left_lane_change: 0.1  # 좌측 차선 변경 확률 (10%)
+    random_right_lane_change: 0.1  # 우측 차선 변경 확률 (10%)
+    speed_difference_percentage: 30  # 속도 편차 (30%)
 
 # 수집할 데이터 필드
 frame_schema:

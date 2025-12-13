@@ -106,16 +106,34 @@ def get_kitti_sequences(kitti_dir: str) -> List[str]:
     kitti_path = Path(kitti_dir)
     sequences = []
     
-    # training/image_02 구조 확인
+    if not kitti_path.exists():
+        logger.warning(f"KITTI 디렉토리를 찾을 수 없습니다: {kitti_dir}")
+        return []
+
+    # 1. 'image_02' 폴더 검색 (training 폴더 우선)
     image_dirs = list(kitti_path.rglob('image_02'))
     
-    for image_dir in image_dirs:
-        # 시퀀스 디렉토리들 찾기
-        for seq_dir in image_dir.iterdir():
-            if seq_dir.is_dir():
-                sequences.append(str(seq_dir))
+    # training/image_02 우선 순위 정렬
+    image_dirs.sort(key=lambda p: 0 if 'training' in p.parts else 1)
     
-    logger.info(f"KITTI 시퀀스 {len(sequences)}개 발견")
+    if not image_dirs:
+        # image_02가 없으면 최상위에서 숫자 폴더 검색 시도 (유연성)
+        logger.info(f"image_02 폴더를 찾지 못함. {kitti_dir} 바로 아래에서 숫자 폴더 검색 시도")
+        candidate_dirs = [p for p in kitti_path.iterdir() if p.is_dir() and p.name.isdigit()]
+        sequences.extend([str(p) for p in sorted(candidate_dirs)])
+    else:
+        for image_dir in image_dirs:
+            # training 폴더가 아닌 곳(예: testing)은 건너뛰고 싶다면 주석 해제
+            # if 'training' not in image_dir.parts: continue
+
+            # 시퀀스 디렉토리들 찾기 (숫자로 된 폴더)
+            seq_dirs = [p for p in image_dir.iterdir() if p.is_dir() and p.name.isdigit()]
+            sequences.extend([str(p) for p in sorted(seq_dirs)])
+    
+    # 중복 제거 및 정렬
+    sequences = sorted(list(set(sequences)))
+    
+    logger.info(f"KITTI 시퀀스 {len(sequences)}개 발견 (경로: {kitti_dir})")
     return sequences
 
 
