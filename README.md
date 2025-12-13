@@ -6,6 +6,9 @@ CARLA 시뮬레이터에서 정책(action) 데이터를 수집하고, KITTI로 s
 ## 환경
 
 - **GPU**: GTX 1080Ti (11GB VRAM)
+- **OS**: Windows 10/11
+- **Python**: 3.12 (CARLA 0.9.16 호환)
+- **Simulator**: CARLA 0.9.16
 - **파이프라인**: 비전 라인 (Tesla-like)
 - **구현**: Jupyter Notebook 중심
 
@@ -24,7 +27,8 @@ automotive/
 ├── config/                    # 설정 파일
 ├── dataset/                   # 데이터
 ├── utils/                     # 유틸리티
-├── plan.md                    # 구현 계획서
+├── plan.md                    # 구현 계획서 (기본)
+├── expansion_plan.md          # 확장 계획서 (Advanced)
 └── requirements.txt
 ```
 
@@ -32,77 +36,34 @@ automotive/
 
 ### 1. 환경 설정
 
-```bash
-# 의존성 설치
+```powershell
+# 1. Python 3.12 가상환경 생성
+py -3.12 -m venv .venv312
+.\.venv312\Scripts\activate
+
+# 2. 의존성 설치
 pip install -r requirements.txt
 
-# CARLA 설치 (0.9.15)
-# https://github.com/carla-simulator/carla/releases/tag/0.9.15
-pip install carla==0.9.15
+# 3. CARLA 0.9.16 Python API 설치
+# (CARLA 설치 경로의 wheel 파일 사용)
+pip install "F:\CARLA\CARLA_0.9.16\PythonAPI\carla\dist\carla-0.9.16-cp312-cp312-win_amd64.whl"
 ```
 
 ### 2. CARLA 서버 실행
 
 ```powershell
-cd C:\CARLA_0.9.15
+# CARLA 설치 경로로 이동하여 실행
+cd F:\CARLA\CARLA_0.9.16\WindowsNoEditor
 .\CarlaUE4.exe -quality-level=Low
 ```
 
-# 석사 논문용 term project 1번
-# 자율주행 AI 파이프라인 (비전 라인)
+### 3. 노트북 실행
 
-CARLA 시뮬레이터에서 정책(action) 데이터를 수집하고, KITTI로 self-supervised 사전학습을 수행하여, 지침을 따르는 자율주행 모델을 학습 및 평가하는 프로젝트입니다.
+1. VS Code에서 노트북 파일 열기 (`notebook/01_carla_setup.ipynb`)
+2. 커널 선택: `Python 3.12 (CARLA)` (또는 `.venv312`)
+3. 셀 순차 실행
 
-## 환경
-
-- **GPU**: GTX 1080Ti (11GB VRAM)
-- **파이프라인**: 비전 라인 (Tesla-like)
-- **구현**: Jupyter Notebook 중심
-
-## 프로젝트 구조
-
-```
-automotive/
-├── notebook/                  # 핵심 구현 노트북
-│   ├── 01_carla_setup.ipynb
-│   ├── 02_data_collection.ipynb
-│   ├── 03_kitti_exploration.ipynb
-│   ├── 04_ssl_pretraining.ipynb
-│   ├── 05_bc_training.ipynb
-│   ├── 06_safety_shield.ipynb
-│   └── 07_evaluation.ipynb
-├── config/                    # 설정 파일
-├── dataset/                   # 데이터
-├── utils/                     # 유틸리티
-├── plan.md                    # 구현 계획서
-└── requirements.txt
-```
-
-## 시작하기
-
-### 1. 환경 설정
-
-```bash
-# 의존성 설치
-pip install -r requirements.txt
-
-# CARLA 설치 (0.9.15)
-# https://github.com/carla-simulator/carla/releases/tag/0.9.15
-pip install carla==0.9.15
-```
-
-### 2. CARLA 서버 실행
-
-```powershell
-cd C:\CARLA_0.9.15
-.\CarlaUE4.exe -quality-level=Low
-```
-
-### 3. 노트북 순차 실행
-
-1. `01_carla_setup.ipynb` - CARLA 연결 테스트
-2. `02_data_collection.ipynb` - 데이터 수집
-3. ... (순차적으로)
+---
 
 ## Literature Research (참고 논문)
 
@@ -126,15 +87,15 @@ cd C:\CARLA_0.9.15
 [11] K. Chitta et al., "TransFuser: Imitation with Transformer-Based Sensor Fusion for Autonomous Driving," *IEEE TPAMI*, 2022.
 [12] H. Jiang et al., "VAD: Vectorized Scene Representation for Efficient Autonomous Driving," in *Proc. ICCV*, 2023.
 [13] P. Wu et al., "Trajectory-guided Control Prediction for End-to-end Autonomous Driving: A Simple yet Strong Baseline," in *Proc. NeurIPS*, 2022. (TCP)
-[14] W. Zheng et al., "OccWorld: Learning a 3D Occupancy World Model for Autonomous Driving," *arXiv preprint*, 2024.
 
 ### 5. World Models & Generative AI
-[15] Z. Hu et al., "MILE: Model-Based Imitation Learning for Urban Driving," in *Proc. NeurIPS*, 2022.
-[16] D. Hafner et al., "Mastering Diverse Domains through World Models," *arXiv preprint*, 2023. (DreamerV3)
-[17] T. Wang et al., "DriveWM: The First World Model for End-to-end Autonomous Driving," *arXiv preprint arXiv:2311.17918*, 2023.
-[18] A. Van den Oord et al., "Neural Discrete Representation Learning," in *Proc. NeurIPS*, 2017. (VQ-VAE)
-[19] A. Razavi et al., "Generating Diverse High-Fidelity Images with VQ-VAE-2," in *Proc. NeurIPS*, 2019.
-[20] P. Esser et al., "Taming Transformers for High-Resolution Image Synthesis," in *Proc. CVPR*, 2021. (VQ-GAN)
+[14] Z. Hu et al., "MILE: Model-Based Imitation Learning for Urban Driving," in *Proc. NeurIPS*, 2022.
+[15] D. Hafner et al., "Mastering Diverse Domains through World Models," *arXiv preprint*, 2023. (DreamerV3)
+[16] T. Wang et al., "DriveWM: The First World Model for End-to-end Autonomous Driving," *arXiv preprint arXiv:2311.17918*, 2023.
+[17] A. Van den Oord et al., "Neural Discrete Representation Learning," in *Proc. NeurIPS*, 2017. (VQ-VAE)
+[18] A. Razavi et al., "Generating Diverse High-Fidelity Images with VQ-VAE-2," in *Proc. NeurIPS*, 2019.
+[19] P. Esser et al., "Taming Transformers for High-Resolution Image Synthesis," in *Proc. CVPR*, 2021. (VQ-GAN)
+[20] W. Zheng et al., "OccWorld: Learning a 3D Occupancy World Model for Autonomous Driving," *arXiv preprint*, 2024.
 
 ### 6. Vision-Language & Multimodal
 [21] A. Radford et al., "Learning Transferable Visual Models From Natural Language Supervision," in *Proc. ICML*, 2021. (CLIP)
@@ -154,5 +115,7 @@ cd C:\CARLA_0.9.15
 ### 9. Video Understanding
 [30] Z. Tong et al., "VideoMAE: Masked Autoencoders are Data-Efficient Learners for Self-Supervised Video Pre-Training," in *Proc. NeurIPS*, 2022.
 [31] G. Bertasius et al., "Is Space-Time Attention All You Need for Video Understanding?," in *Proc. ICML*, 2021. (TimeSformer)
+
+---
 
 자세한 내용은 [plan.md](plan.md) 및 [expansion_plan.md](expansion_plan.md) 참조
