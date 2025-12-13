@@ -1,0 +1,53 @@
+# 학습 설정 (GTX 1080Ti 11GB 최적화)
+
+# Self-supervised 사전학습 (SimCLR)
+ssl_training:
+  batch_size: 16          # 11GB에서 안정적
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  epochs: 100
+  warmup_epochs: 10
+  mixed_precision: true   # FP16 사용
+  temperature: 0.5        # NT-Xent loss 온도
+  
+  # 데이터 증강
+  augmentation:
+    resize: [224, 224]
+    random_crop: true
+    color_jitter: 0.8
+    gaussian_blur: true
+    horizontal_flip: true
+
+# 행동 클로닝
+bc_training:
+  batch_size: 32
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  epochs: 50
+  patience: 10            # Early stopping
+  
+  encoder_freeze: true    # 초기에는 인코더 고정
+  unfreeze_epoch: 20      # 이 에폭 이후 fine-tuning
+  
+  # 손실 가중치
+  loss_weights:
+    steer: 1.0
+    throttle: 0.5
+    brake: 0.5
+
+# 옵티마이저
+optimizer:
+  type: AdamW
+  betas: [0.9, 0.999]
+  
+# 스케줄러
+scheduler:
+  type: CosineAnnealingLR
+  T_max: 50
+  eta_min: 0.00001
+
+# 체크포인트
+checkpoint:
+  save_dir: checkpoints/
+  save_every: 10          # 에폭마다
+  keep_last: 3            # 최근 3개만 유지

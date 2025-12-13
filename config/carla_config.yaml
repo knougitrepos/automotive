@@ -1,0 +1,43 @@
+# CARLA 센서 및 환경 설정
+
+sensors:
+  rgb_front:
+    type: sensor.camera.rgb
+    width: 800
+    height: 600
+    fov: 100
+    position: [1.5, 0.0, 2.4]  # x, y, z (차량 기준)
+    rotation: [0, 0, 0]  # pitch, yaw, roll
+
+collection:
+  fps: 10  # 초당 프레임 수
+  episode_length: 1000  # 에피소드당 최대 프레임
+  num_episodes: 50  # 수집할 에피소드 수
+  
+server:
+  host: localhost
+  port: 2000
+  timeout: 10.0
+
+world:
+  map: Town01  # 시작 맵
+  weather: ClearNoon  # 날씨 설정
+  
+vehicle:
+  blueprint: vehicle.tesla.model3
+  spawn_point: random  # 랜덤 스폰 또는 특정 위치
+
+# 수집할 데이터 필드
+frame_schema:
+  - frame_id           # 프레임 번호
+  - image_path         # 이미지 경로
+  - ego_speed          # 자차 속도 (m/s)
+  - ego_location       # 위치 [x, y, z]
+  - ego_rotation       # 방향 [pitch, yaw, roll]
+  - traffic_light      # 신호등 상태
+  - speed_limit        # 속도 제한 (km/h)
+  - steer              # 핸들 각도 [-1, 1]
+  - throttle           # 가속 [0, 1]
+  - brake              # 제동 [0, 1]
+  - collision          # 충돌 여부
+  - lane_invasion      # 차선 침범 여부

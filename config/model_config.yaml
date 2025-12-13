@@ -1,0 +1,47 @@
+# 모델 아키텍처 설정
+
+# Vision Encoder (비전 라인)
+encoder:
+  type: resnet50          # resnet50 / resnet34 / vit_base
+  pretrained: imagenet    # imagenet / ssl / none
+  feature_dim: 2048       # ResNet-50 출력 차원
+  
+  # Gradient Checkpointing (메모리 절약)
+  gradient_checkpointing: true
+  
+  # 출력 설정
+  remove_fc: true         # 분류 헤드 제거
+  output_layer: avgpool   # 특징 추출 레이어
+
+# Policy Head
+policy_head:
+  hidden_dims: [512, 256]
+  dropout: 0.3
+  activation: relu
+  
+  # 출력 활성화 함수
+  output_activation:
+    steer: tanh           # [-1, 1]
+    throttle: sigmoid     # [0, 1]
+    brake: sigmoid        # [0, 1]
+
+# World Model (선택적, 미래 예측)
+world_model:
+  enabled: false          # 초기에는 비활성화
+  latent_dim: 256
+  prediction_horizon: 5   # 미래 5프레임 예측
+
+# Safety Shield
+safety_shield:
+  enabled: true
+  rules:
+    red_light_stop: true
+    speed_limit: true
+    collision_avoid: true
+    pedestrian_priority: true
+  
+  # 규칙 파라미터
+  params:
+    emergency_brake_distance: 5.0   # 미터
+    speed_limit_margin: 5.0         # km/h 여유
+    pedestrian_safe_distance: 10.0  # 미터
