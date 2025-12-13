@@ -1,0 +1,39 @@
+# 자율주행 MVP 시스템 의존성 패키지
+
+# 딥러닝 프레임워크
+torch>=2.0.0
+torchvision>=0.15.0
+
+# MVP-V (비전 기반) 필수
+ultralytics>=8.0.0  # YOLOv8/YOLOv11
+opencv-python>=4.8.0  # 스테레오 깊이 추정, 이미지 처리
+opencv-contrib-python>=4.8.0  # 스테레오 비전 함수
+
+# MVP-V 선택 (필요시 설치)
+# segment-anything-2  # SAM2 - 설치 방법: pip install git+https://github.com/facebookresearch/segment-anything-2.git
+# dinov2  # DINOv2 - 설치 방법: pip install dinov2
+# bytetrack  # ByteTrack
+
+# MVP-L (라이다 기반) 필수
+open3d>=0.17.0  # 포인트 클라우드 처리 및 시각화
+# mmdetection3d>=1.0.0  # PointPillars - 별도 설치 필요: https://mmdetection3d.readthedocs.io/
+# pytorch3d>=0.7.0  # 3D 딥러닝 연산 (선택)
+
+# 공통 유틸리티
+numpy>=1.24.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+tqdm>=4.65.0
+scipy>=1.10.0
+pillow>=9.5.0
+scikit-learn>=1.3.0
+scikit-image>=0.20.0
+
+# Jupyter 노트북
+jupyter>=1.0.0
+ipykernel>=6.25.0
+ipywidgets>=8.0.0
+
+# 시각화
+plotly>=5.14.0
+seaborn>=0.12.0
