@@ -6,12 +6,11 @@ pandas>=2.0.0
 opencv-python>=4.8.0
 
 # CARLA (별도 설치 후)
-# carla==0.9.15  # CARLA 설치 후 주석 해제
+# carla==0.9.15  # CARLA 사용 시 주석 해제
 
-# Self-supervised / Models
-timm>=0.9.0
-
-# Jupyter
+# Donkeycar
+gym-donkeycar>=1.3.0
+tensorflow>=2.10.0  # Keras 모델용
 jupyter>=1.0.0
 ipywidgets>=8.0.0
 

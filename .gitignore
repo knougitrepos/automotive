@@ -15,7 +15,7 @@ eggs/
 .eggs/
 lib/
 lib64/
-parts/
+# parts/  # Donkeycar parts 사용을 위해 주석 처리
 sdist/
 var/
 wheels/
@@ -43,7 +43,7 @@ eggs/
 .eggs/
 lib/
 lib64/
-parts/
+# parts/  # Donkeycar parts 사용을 위해 주석 처리
 sdist/
 var/
 wheels/
